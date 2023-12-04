@@ -5,12 +5,15 @@ class Hdf5Fixed(DataFormat):
 
     format_name = "hdf5.fixed"
     filetype = "h5"
-    save_params = {"index": False, "key": "data", "format": "fixed"}
-    read_params = {}
 
-    def __init__(self, data_set) -> None:
+    save_params: dict
+    read_params: dict
+
+    def __init__(self, data_set, save_params = {"index": False, "key": "data", "format": "fixed"}, read_params = {}) -> None:
         super().__init__(data_set)
         self.filename = f'test.{self.filetype}'
+        self.save_params = save_params
+        self.read_params = read_params
 
     def save(self):
         self.data_set.to_hdf(self.filename, **self.save_params)

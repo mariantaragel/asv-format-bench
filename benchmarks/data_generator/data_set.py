@@ -1,6 +1,5 @@
 import pandas as pd
 from .gen_dtype import GenDtype
-from .data_formats import Csv, Json, Xml, Hdf5Fixed, Hdf5Table, Parquet, Feather, Orc, Pickle, Excel
 
 
 class DataSet:
@@ -12,7 +11,7 @@ class DataSet:
             bool_cols: int,
             str_cols: int,
             nan_ratio: float,
-            str_fixed: int
+            str_fixed: bool
         ) -> pd.DataFrame:
         gd = GenDtype()
 
@@ -38,21 +37,3 @@ class DataSet:
 
         data = dict(zip(cols, data_int + data_float + data_bool + data_str))
         return pd.DataFrame(data)
-
-    def get_data_formats(ds):
-        return [
-            Csv(ds),
-            Json(ds),
-            Xml(ds),
-            Hdf5Fixed(ds),
-            Hdf5Table(ds),
-            Parquet(ds),
-            Feather(ds),
-            Orc(ds),
-            Pickle(ds),
-            Excel(ds),
-        ]
-    
-    data_set_1 = gen_data_set(10_000, 1, 1, 0, 0, 0, True)
-    data_set_2 = gen_data_set(10_000, 1, 0, 0, 1, 0, True)
-    data_set_3 = gen_data_set(10_000, 0, 0, 1, 1, 0, True)

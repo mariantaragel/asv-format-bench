@@ -3,7 +3,7 @@ import os
 
 benchamrk_file_loc = ".asv/results/benchmarks.json"
 results_dir = ".asv/results/marian-notebook"
-data_formats = ["Csv", "Json", "Xml", "Hdf5Fixed", "Hdf5Table", "Parquet", "Feather", "Orc", "Pickle", "Excel"]
+data_formats = ["Csv", "Json", "Xml"]
 
 benchamrk_file = open(benchamrk_file_loc, "r")
 benchmark_data = json.load(benchamrk_file)
