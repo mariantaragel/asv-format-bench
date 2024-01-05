@@ -8,6 +8,9 @@ class DataFormat:
     def __init__(self, data_set) -> None:
         self.data_set = data_set
 
+    def __repr__(self) -> str:
+        return self.format_name
+
     def save(self):
         pass
 

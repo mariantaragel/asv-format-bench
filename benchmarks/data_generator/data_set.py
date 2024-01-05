@@ -4,6 +4,12 @@ from .gen_dtype import GenDtype
 
 class DataSet:
 
+    def __repr__(self) -> str:
+        return "Data set"
+
+    def __str__(self) -> str:
+        return "DS"
+
     def gen_data_set(
             entries: int,
             int_cols: int,
@@ -36,4 +42,5 @@ class DataSet:
             data_str = gd.gen_cols(str_cols, entries, "str_var", nan_ratio, str_var_params)
 
         data = dict(zip(cols, data_int + data_float + data_bool + data_str))
+        
         return pd.DataFrame(data)
