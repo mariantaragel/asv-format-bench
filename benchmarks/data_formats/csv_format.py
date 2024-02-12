@@ -1,22 +1,25 @@
 from .data_format import DataFormat
 import pandas as pd
+import dask.dataframe as dd
 
 class Csv(DataFormat):
 
-    format_name = "csv"
+    format_name = "CSV"
     filetype = "csv"
-    
-    save_params: dict
-    read_params: dict
 
-    def __init__(self, data_set, save_params = {"index": False}, read_params = {}) -> None:
-        super().__init__(data_set)
+    def __init__(self, data_set, compression=None) -> None:
+        super().__init__(data_set, compression)
         self.filename = f'test.{self.filetype}'
-        self.save_params = save_params
-        self.read_params = read_params
 
     def save(self):
-        self.data_set.to_csv(self.filename, **self.save_params, )
+        self.data_set.to_csv(self.filename, index=False, compression=self.compression)
+
+    def parallel_save(self):
+        dask_df = dd.from_pandas(self.data_set, npartitions=4)
+        dd.to_csv(dask_df, self.filename)
 
     def read(self):
-        pd.read_csv(self.filename, **self.read_params)
+        pd.read_csv(self.filename, compression=self.compression)
+
+    def parallel_read(self):
+        dd.read_csv(f"{self.filename}/*.part").compute()

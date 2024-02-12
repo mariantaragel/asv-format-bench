@@ -8,12 +8,13 @@
     "pythons": ["3.10"],
     "matrix": {
         "req": {
-            "pandas": "2.1.2",
-            "numpy": "1.26.1",
-            "pyarrow": "14.0.1",
-            "tables": "3.9.1",
-            "lxml": "4.9.3",
-            "openpyxl": "3.1.2"
+            "pandas": [],
+            "numpy": [],
+            "dask": [],
+            "pyarrow": [],
+            "tables": [],
+            "lxml": [],
+            "openpyxl": []
         }
     },
     "env_dir": ".asv/env",

@@ -3,20 +3,15 @@ import pandas as pd
 
 class Xml(DataFormat):
 
-    format_name = "xml"
+    format_name = "XML"
     filetype = "xml"
-    
-    save_params: dict
-    read_params: dict
 
-    def __init__(self, data_set, save_params = {"index": False}, read_params = {}) -> None:
-        super().__init__(data_set)
+    def __init__(self, data_set, compression=None) -> None:
+        super().__init__(data_set, compression)
         self.filename = f'test.{self.filetype}'
-        self.save_params = save_params
-        self.read_params = read_params
 
     def save(self):
-        self.data_set.to_xml(self.filename, **self.save_params)
+        self.data_set.to_xml(self.filename, index=False, compression=self.compression)
 
     def read(self):
-        pd.read_xml(self.filename, **self.read_params)
+        pd.read_xml(self.filename, compression=self.compression)
