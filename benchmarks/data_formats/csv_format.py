@@ -16,7 +16,7 @@ class Csv(DataFormat):
 
     def parallel_save(self):
         dask_df = dd.from_pandas(self.data_set, npartitions=4)
-        dd.to_csv(dask_df, self.filename)
+        dd.to_csv(dask_df, self.filename, index=False)
 
     def read(self):
         pd.read_csv(self.filename, compression=self.compression)

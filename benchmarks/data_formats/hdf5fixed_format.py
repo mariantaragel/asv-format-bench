@@ -3,20 +3,25 @@ import pandas as pd
 
 class Hdf5Fixed(DataFormat):
 
-    format_name = "hdf5.fixed"
+    format_name = "HDF5.fixed"
     filetype = "h5"
 
-    save_params: dict
-    read_params: dict
+    complevel: int
 
-    def __init__(self, data_set, save_params = {"index": False, "key": "data", "format": "fixed"}, read_params = {}) -> None:
-        super().__init__(data_set)
-        self.filename = f'test.{self.filetype}'
-        self.save_params = save_params
-        self.read_params = read_params
+    def __init__(self, data_set, compression="zlib", complevel=None) -> None:
+        super().__init__(data_set, compression)
+        self.filename = f"test.{self.filetype}"
+        self.complevel = complevel
 
     def save(self):
-        self.data_set.to_hdf(self.filename, **self.save_params)
+        self.data_set.to_hdf(
+            self.filename,
+            index=False,
+            key="data",
+            format="fixed",
+            complib=self.compression,
+            complevel=self.complevel
+        )
 
     def read(self):
-        pd.read_hdf(self.filename, **self.read_params)
+        pd.read_hdf(self.filename)

@@ -4,7 +4,7 @@ class DataFormat:
 
     data_set: any
     filename: str
-    compression: str
+    compression: any
 
     def __init__(self, data_set, compression) -> None:
         self.data_set = data_set

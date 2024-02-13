@@ -16,7 +16,7 @@ class Parquet(DataFormat):
 
     def parallel_save(self):
         dask_df = dd.from_pandas(self.data_set, npartitions=4)
-        dd.to_parquet(dask_df, self.filename)
+        dd.to_parquet(dask_df, self.filename, write_index=False)
 
     def read(self):
         pd.read_parquet(self.filename)
