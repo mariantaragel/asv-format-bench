@@ -3,20 +3,18 @@ import pandas as pd
 
 class Feather(DataFormat):
 
-    format_name = "feather"
+    format_name = "Feather"
     filetype = "feather"
-    
-    save_params: dict
-    read_params: dict
 
-    def __init__(self, data_set, save_params = {}, read_params = {}) -> None:
-        super().__init__(data_set)
-        self.filename = f'test.{self.filetype}'
-        self.save_params = save_params
-        self.read_params = read_params
+    compression_level: int
+
+    def __init__(self, data_set, compression="uncompressed", compression_level=None) -> None:
+        super().__init__(data_set, compression)
+        self.filename = f"test.{self.filetype}"
+        self.compression_level = compression_level
 
     def save(self):
-        self.data_set.to_feather(self.filename, **self.save_params)
+        self.data_set.to_feather(self.filename, compression=self.compression, compression_level=self.compression_level)
 
     def read(self):
-        pd.read_feather(self.filename, **self.read_params)
+        pd.read_feather(self.filename, use_threads=False)

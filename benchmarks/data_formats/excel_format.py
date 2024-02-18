@@ -3,20 +3,15 @@ import pandas as pd
 
 class Excel(DataFormat):
 
-    format_name = "excel"
+    format_name = "Excel"
     filetype = "xlsx"
 
-    save_params: dict
-    read_params: dict
-
-    def __init__(self, data_set, save_params = {"index": False}, read_params = {}) -> None:
-        super().__init__(data_set)
+    def __init__(self, data_set, compression=None) -> None:
+        super().__init__(data_set, compression)
         self.filename = f'test.{self.filetype}'
-        self.save_params = save_params
-        self.read_params = read_params
 
     def save(self):
-        self.data_set.to_excel(self.filename, **self.save_params)
+        self.data_set.to_excel(self.filename, index=False)
 
     def read(self):
-        pd.read_excel(self.filename, **self.read_params)
+        pd.read_excel(self.filename)

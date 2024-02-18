@@ -2,7 +2,6 @@ from .data_generator import DataSet
 from .data_formats import Csv, Json, Xml, Hdf5Fixed, Hdf5Table, Parquet, Feather, Orc, Pickle, Excel
 from .base import BaseBenchmark
 
-
 class Uncompressed(BaseBenchmark):
 
     def __init__(self) -> None: 
@@ -20,7 +19,11 @@ class Uncompressed(BaseBenchmark):
             Xml(ds),
             Hdf5Fixed(ds),
             Hdf5Table(ds),
-            Parquet(ds)
+            Parquet(ds),
+            Feather(ds),
+            Orc(ds),
+            Pickle(ds),
+            Excel(ds)
         ]
 
     def setup(self, format):

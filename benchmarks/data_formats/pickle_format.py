@@ -3,20 +3,18 @@ import pandas as pd
 
 class Pickle(DataFormat):
 
-    format_name = "pickle"
+    format_name = "Pickle"
     filetype = "pkl"
-    
-    save_params: dict
-    read_params: dict
 
-    def __init__(self, data_set, save_params = {}, read_params = {}) -> None:
-        super().__init__(data_set)
-        self.filename = f'test.{self.filetype}'
-        self.save_params = save_params
-        self.read_params = read_params
+    complevel: int
+    
+    def __init__(self, data_set, compression=None, complevel=None) -> None:
+        super().__init__(data_set, compression)
+        self.filename = f"test.{self.filetype}"
+        self.complevel = complevel
 
     def save(self):
-        self.data_set.to_pickle(self.filename, **self.save_params)
+        self.data_set.to_pickle(self.filename, compression={"method": self.compression, "level": self.complevel})
 
     def read(self):
-        pd.read_pickle(self.filename, **self.read_params)
+        pd.read_pickle(self.filename, compression=self.compression)

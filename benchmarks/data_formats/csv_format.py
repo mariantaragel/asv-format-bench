@@ -7,12 +7,16 @@ class Csv(DataFormat):
     format_name = "CSV"
     filetype = "csv"
 
-    def __init__(self, data_set, compression=None) -> None:
+    complevel: int
+
+    def __init__(self, data_set, compression=None, complevel=None) -> None:
         super().__init__(data_set, compression)
-        self.filename = f'test.{self.filetype}'
+        self.filename = f"test.{self.filetype}"
+        self.pathname = f"{self.filename}/*.part"
+        self.complevel = complevel
 
     def save(self):
-        self.data_set.to_csv(self.filename, index=False, compression=self.compression)
+        self.data_set.to_csv(self.filename, index=False, compression={"method": self.compression, "level": self.complevel})
 
     def parallel_save(self):
         dask_df = dd.from_pandas(self.data_set, npartitions=4)
@@ -22,4 +26,4 @@ class Csv(DataFormat):
         pd.read_csv(self.filename, compression=self.compression)
 
     def parallel_read(self):
-        dd.read_csv(f"{self.filename}/*.part").compute()
+        dd.read_csv(self.pathname).compute()

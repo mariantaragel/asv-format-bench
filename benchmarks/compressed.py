@@ -1,7 +1,6 @@
 from .data_generator import DataSet
-from .data_formats import Csv, Json, Xml, Hdf5Fixed, Hdf5Table, Parquet, Feather, Orc, Pickle, Excel
+from .data_formats import Hdf5Fixed, Hdf5Table, Parquet, Feather, Orc
 from .base import BaseBenchmark
-
 
 class Compressed(BaseBenchmark):
 
@@ -15,12 +14,11 @@ class Compressed(BaseBenchmark):
             str_var_cols=1
         )
         self.params = [
-            Csv(ds, {"method": "gzip", "compresslevel": 9}), # zip, gzip, bz2, zstd, xz, tar
-            Json(ds, {"method": "gzip", "compresslevel": 9}), # zip, gzip, bz2, zstd, xz, tar
-            Xml(ds, {"method": "gzip", "compresslevel": 9}), # zip, gzip, bz2, zstd, xz, tar
-            Hdf5Fixed(ds, "zlib", 9), # zlib, lzo, bzip2, blosc:{blosclz, lz4, lz4hc, snappy, zlib, zstd}
-            Hdf5Table(ds, "zlib", 9), # zlib, lzo, bzip2, blosc:{blosclz, lz4, lz4hc, snappy, zlib, zstd}
-            Parquet(ds, "gzip") # snappy, gzip, brotli, lz4, zstd
+            Hdf5Fixed(ds, "blosc:lz4", 9),  # blosc:{lz4, lz4hc, zstd, snappy, zlib, blosclz}, zlib, lzo, bzip2
+            Hdf5Table(ds, "blosc:lz4", 9),  # blosc:{lz4, lz4hc, zstd, snappy, zlib, blosclz}, zlib, lzo, bzip2
+            Parquet(ds, "lz4"),             # lz4, zstd, snappy, gzip, brotli
+            Feather(ds, "lz4", 9),          # lz4, zstd
+            Orc(ds, "lz4"),                 # lz4, sztd, snappy, zlib
         ]
 
     def setup(self, format):

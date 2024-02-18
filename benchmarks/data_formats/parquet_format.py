@@ -9,7 +9,8 @@ class Parquet(DataFormat):
     
     def __init__(self, data_set, compression=None) -> None:
         super().__init__(data_set, compression)
-        self.filename = f'test.{self.filetype}'
+        self.filename = f"test.{self.filetype}"
+        self.pathname = f"{self.filename}/part.*.{self.filetype}"
 
     def save(self):
         self.data_set.to_parquet(self.filename, index=False, compression=self.compression)
@@ -22,4 +23,4 @@ class Parquet(DataFormat):
         pd.read_parquet(self.filename)
 
     def parallel_read(self):
-        dd.read_parquet(f"{self.filename}/part.*.{self.filetype}").compute()
+        dd.read_parquet(self.pathname).compute()

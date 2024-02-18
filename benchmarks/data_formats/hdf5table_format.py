@@ -11,7 +11,8 @@ class Hdf5Table(DataFormat):
 
     def __init__(self, data_set, compression="zlib", complevel=None) -> None:
         super().__init__(data_set, compression)
-        self.filename = f'test.{self.filetype}'
+        self.filename = f"test.{self.filetype}"
+        self.pathname = f"{self.filename}.*.{self.filetype}"
         self.complevel = complevel
 
     def save(self):
@@ -39,4 +40,4 @@ class Hdf5Table(DataFormat):
         pd.read_hdf(self.filename, key="data")
 
     def parallel_read(self):
-        dd.read_hdf(f"{self.filename}.*.{self.filetype}", key="data").compute()
+        dd.read_hdf(self.pathname, key="data").compute()
