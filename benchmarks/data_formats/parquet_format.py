@@ -1,23 +1,22 @@
 from .data_format import DataFormat
-import pandas as pd
 import dask.dataframe as dd
+import pandas as pd
 
 class Parquet(DataFormat):
 
     format_name = "Parquet"
     filetype = "parquet"
     
-    def __init__(self, data_set, compression=None) -> None:
-        super().__init__(data_set, compression)
+    def __init__(self) -> None:
         self.filename = f"test.{self.filetype}"
         self.pathname = f"{self.filename}/part.*.{self.filetype}"
 
-    def save(self):
-        self.data_set.to_parquet(self.filename, index=False, compression=self.compression)
+    def save(self, data_set, compression=None):
+        data_set.to_parquet(self.filename, index=False, engine="pyarrow", compression=compression)
 
-    def parallel_save(self):
-        dask_df = dd.from_pandas(self.data_set, npartitions=4)
-        dd.to_parquet(dask_df, self.filename, write_index=False)
+    def parallel_save(self, data_set, n):
+        dask_df = dd.from_pandas(data_set, npartitions=n)
+        dd.to_parquet(dask_df, self.filename, write_index=False, engine="pyarrow")
 
     def read(self):
         pd.read_parquet(self.filename)

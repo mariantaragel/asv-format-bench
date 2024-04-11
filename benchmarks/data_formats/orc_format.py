@@ -7,16 +7,15 @@ class Orc(DataFormat):
     format_name = "ORC"
     filetype = "orc"
     
-    def __init__(self, data_set, compression="uncompressed") -> None:
-        super().__init__(data_set, compression)
+    def __init__(self) -> None:
         self.filename = f"test.{self.filetype}"
         self.pathname = f"{self.filename}/part.*.{self.filetype}"
 
-    def save(self):
-        self.data_set.to_orc(self.filename, index=False, engine_kwargs={"compression": self.compression})
+    def save(self, data_set, compression="uncompressed"):
+        data_set.to_orc(self.filename, index=False, engine_kwargs={"compression": compression})
 
-    def parallel_save(self):
-        dask_df = dd.from_pandas(self.data_set, npartitions=4)
+    def parallel_save(self, data_set, n):
+        dask_df = dd.from_pandas(data_set, npartitions=n)
         dd.to_orc(dask_df, self.filename, write_index=False, compute=True)
 
     def read(self):

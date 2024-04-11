@@ -1,32 +1,34 @@
 from .data_format import DataFormat
-import pandas as pd
 import dask.dataframe as dd
+import pandas as pd
+import dask
 
 class Hdf5Table(DataFormat):
 
     format_name = "HDF5.table"
     filetype = "h5"
-    
-    complevel: int
 
-    def __init__(self, data_set, compression="zlib", complevel=None) -> None:
-        super().__init__(data_set, compression)
+    def __init__(self) -> None:
         self.filename = f"test.{self.filetype}"
         self.pathname = f"{self.filename}.*.{self.filetype}"
-        self.complevel = complevel
 
-    def save(self):
-        self.data_set.to_hdf(
+    def save(self, data_set, compression="zlib"):
+        if compression == "zlib":
+            complevel = None
+        else:
+            complevel = 9
+        data_set.to_hdf(
             self.filename,
             index=False,
             key="data",
             format="table",
-            complib=self.compression,
-            complevel=self.complevel
+            complib=f"blosc:{compression}",
+            complevel=complevel
         )
 
-    def parallel_save(self):
-        dask_df = dd.from_pandas(self.data_set, npartitions=4)
+    def parallel_save(self, data_set, n):
+        dask.config.set({"dataframe.convert-string": False})
+        dask_df = dd.from_pandas(data_set, npartitions=n)
         dd.to_hdf(
             dask_df,
             f"{self.filename}.*.{self.filetype}",

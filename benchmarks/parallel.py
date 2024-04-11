@@ -1,43 +1,32 @@
-from .data_generator import DataSet
 from .data_formats import Csv, Json, Hdf5Table, Parquet, Orc
+from .data_generator import Generator
 from .base import BaseBenchmark
-import dask
 
 class Parallel(BaseBenchmark):
-    def __init__(self) -> None: 
-        ds = DataSet.gen_data_set(
-            entries=10_000,
-            int_cols=1,
-            float_cols=1,
-            bool_cols=1,
-            str_fixed_cols=1,
-            str_var_cols=1
-        )
-        self.params = [
-            Csv(ds),
-            Json(ds),
-            Hdf5Table(ds),
-            Parquet(ds),
-            Orc(ds)
-        ]
 
-    def setup(self, format):
-        dask.config.set({"dataframe.convert-string": False})
-        format.parallel_save()
+    param_names = ["Data format", "Partitions"]
 
-    def time_save(self, format):
-        format.parallel_save()
+    ds = Generator.gen_data_set("ds", 1000, 1, 1, 0, 1, 0, 0)
 
-    def track_size(self, format):
+    def __init__(self) -> None:
+        self.params = ([Csv(), Json(), Hdf5Table(), Parquet(), Orc()], [1, 2, 4])
+
+    def setup(self, format, n):
+        format.parallel_save(self.ds.df, n)
+
+    def time_save(self, format, n):
+        format.parallel_save(self.ds.df, n)
+
+    def track_size(self, format, n):
         return format.size_all_files()
     
-    def time_read(self, format):
+    def time_read(self, format, n):
         format.parallel_read()
 
-    def peakmem_save(self, format):
-        format.parallel_save()
+    def peakmem_save(self, format, n):
+        format.parallel_save(self.ds.df, n)
 
-    def peakmem_read(self, format):
+    def peakmem_read(self, format, n):
         format.parallel_read()
 
     time_save.pretty_name = "Saving time"

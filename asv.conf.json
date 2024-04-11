@@ -1,20 +1,26 @@
 {
     "version": 1,
     "project": "FormatBench",
-    "project_url": "https://github.com/mariantaragel/bachelor-thesis-benchmark",
+    "project_url": "https://github.com/mariantaragel/format_bench_asv",
     "repo": ".",
     "branches": ["main"],
     "environment_type": "virtualenv",
-    "pythons": ["3.10"],
+    "pythons": ["3.11"],
     "matrix": {
         "req": {
             "pandas": [],
             "numpy": [],
             "dask": [],
+            "dask-expr": [],
             "pyarrow": [],
             "tables": [],
             "lxml": [],
-            "openpyxl": []
+            "openpyxl": [],
+            "pylance": [],
+            "fastavro": [],
+            "pillow": [],
+            "h5py": [],
+            "lmdb": []
         }
     },
     "env_dir": ".asv/env",

@@ -8,6 +8,8 @@ from .feather_format import Feather
 from .orc_format import Orc
 from .pickle_format import Pickle
 from .excel_format import Excel
+from .lance_format import Lance
+from .avro_format import Avro
 
 __all__ = [
     "Csv",
@@ -19,5 +21,7 @@ __all__ = [
     "Feather",
     "Orc",
     "Pickle",
-    "Excel"
+    "Excel",
+    "Lance",
+    "Avro"
 ]

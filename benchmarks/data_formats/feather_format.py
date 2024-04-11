@@ -6,15 +6,15 @@ class Feather(DataFormat):
     format_name = "Feather"
     filetype = "feather"
 
-    compression_level: int
-
-    def __init__(self, data_set, compression="uncompressed", compression_level=None) -> None:
-        super().__init__(data_set, compression)
+    def __init__(self) -> None:
         self.filename = f"test.{self.filetype}"
-        self.compression_level = compression_level
 
-    def save(self):
-        self.data_set.to_feather(self.filename, compression=self.compression, compression_level=self.compression_level)
+    def save(self, data_set, compression="uncompressed"):
+        if compression == "uncompressed":
+            complevel = None
+        else:
+            complevel = 9
+        data_set.to_feather(self.filename, compression=compression, compression_level=complevel)
 
     def read(self):
         pd.read_feather(self.filename, use_threads=False)
