@@ -1,10 +1,15 @@
+##
+# @file lmdb_storage.py
+# @author Marián Tarageľ (xtarag01)
+
 from .image_storage import ImageStorage
 import pickle
 import lmdb
 import os
 
 class LmdbImage(ImageStorage):
-    
+    """Storing images to a Lightning Memory-Mapped Database"""
+
     filename = "test.lmdb"
     format_name = "LMDB"
 
@@ -35,7 +40,7 @@ class LmdbImage(ImageStorage):
 
         return images, labels
     
-    def remove(self):
+    def remove(self) -> tuple[list, list]:
         os.remove(self.filename + "/data.mdb")
         os.remove(self.filename + "/lock.mdb")
         os.rmdir(self.filename)

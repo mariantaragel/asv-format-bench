@@ -1,4 +1,4 @@
-from .data_generator import Generator
+from .generator import Generator
 from .gen_dtype import GenDtype
 
 __all__ = [

@@ -1,3 +1,7 @@
+##
+# @file xml_format.py
+# @author Marián Tarageľ (xtarag01)
+
 from .data_format import DataFormat
 import pandas as pd
 
@@ -8,13 +12,11 @@ class Xml(DataFormat):
 
     complevel: int
 
-    def __init__(self, compression=None, complevel=None) -> None:
-        super().__init__(compression)
+    def __init__(self) -> None:
         self.filename = f"test.{self.filetype}"
-        self.complevel = complevel
 
-    def save(self, data_set):
-        data_set.to_xml(self.filename, index=False, compression={"method": self.compression, "level": self.complevel})
+    def save(self, data_set, compression=None, complevel=None):
+        data_set.to_xml(self.filename, index=False, compression={"method": compression, "level": complevel})
 
-    def read(self):
-        pd.read_xml(self.filename, compression=self.compression)
+    def read(self, compression="infer") -> pd.DataFrame:
+        return pd.read_xml(self.filename, compression=compression)

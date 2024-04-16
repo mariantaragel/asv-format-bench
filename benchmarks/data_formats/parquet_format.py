@@ -1,3 +1,7 @@
+##
+# @file parquet_format.py
+# @author Marián Tarageľ (xtarag01)
+
 from .data_format import DataFormat
 import dask.dataframe as dd
 import pandas as pd
@@ -18,8 +22,8 @@ class Parquet(DataFormat):
         dask_df = dd.from_pandas(data_set, npartitions=n)
         dd.to_parquet(dask_df, self.filename, write_index=False, engine="pyarrow")
 
-    def read(self):
-        pd.read_parquet(self.filename)
+    def read(self) -> pd.DataFrame:
+        return pd.read_parquet(self.filename)
 
-    def parallel_read(self):
-        dd.read_parquet(self.pathname).compute()
+    def parallel_read(self) -> pd.DataFrame:
+        return dd.read_parquet(self.pathname).compute()

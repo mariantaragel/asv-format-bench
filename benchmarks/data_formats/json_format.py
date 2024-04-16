@@ -1,3 +1,7 @@
+##
+# @file json_format.py
+# @author Marián Tarageľ (xtarag01)
+
 from .data_format import DataFormat
 import dask.dataframe as dd
 import pandas as pd
@@ -7,29 +11,25 @@ class Json(DataFormat):
     format_name = "JSON"
     filetype = "jsonl"
 
-    complevel: int
-
-    def __init__(self, compression=None, complevel=None) -> None:
-        super().__init__(compression)
+    def __init__(self) -> None:
         self.filename = f"test.{self.filetype}"
         self.pathname = f"{self.filename}/*.part"
-        self.complevel = complevel
 
-    def save(self, data_set):
+    def save(self, data_set, compression=None, complevel=None):
         data_set.to_json(
             self.filename,
             orient="records",
             lines=True,
             index=False,
-            compression={"method": self.compression, "level": self.complevel}
+            compression={"method": compression, "level": complevel}
         )
 
     def parallel_save(self, data_set, n):
         dask_df = dd.from_pandas(data_set, npartitions=n)
         dd.to_json(dask_df, self.filename, orient="records", lines=True, index=False)
 
-    def read(self):
-        pd.read_json(self.filename, lines=True, compression=self.compression)
+    def read(self, compression="infer") -> pd.DataFrame:
+        return pd.read_json(self.filename, lines=True, compression=compression)
 
-    def parallel_read(self):
-        dd.read_json(self.pathname).compute()
+    def parallel_read(self) -> pd.DataFrame:
+        return dd.read_json(self.pathname).compute()

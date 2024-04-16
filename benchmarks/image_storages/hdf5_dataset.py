@@ -1,8 +1,13 @@
+##
+# @file hdf5_dataset.py
+# @author Marián Tarageľ (xtarag01)
+
 from .image_storage import ImageStorage
 import numpy as np
 import h5py
 
 class Hdf5Image(ImageStorage):
+    """Storing images to a single HDF5 file"""
 
     filename = "test.h5"
     format_name = "HDF5"
@@ -30,7 +35,7 @@ class Hdf5Image(ImageStorage):
             for i, img_bytes in enumerate(images):
                 images_ds[i] = np.ravel(img_bytes)
 
-    def read(self):
+    def read(self) -> tuple[list, list]:
         with h5py.File(self.filename, "r") as hdf5_file:
             labels = hdf5_file["labels"][:].astype("uint8").tolist()
             images = []

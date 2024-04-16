@@ -1,5 +1,10 @@
-from .dataset import Dataset
+##
+# @file generator.py
+# @author Marián Tarageľ (xtarag01)
+# @brief Create and load datasets
+
 from .gen_dtype import GenDtype
+from .dataset import Dataset
 from PIL import Image
 import pandas as pd
 import numpy as np
@@ -11,7 +16,8 @@ import io
 
 class Generator:
 
-    def gen_data_set(
+    @staticmethod
+    def gen_dataset(
         name: str,
         entries: int,
         int_cols: int,
@@ -21,6 +27,18 @@ class Generator:
         str_var_cols: int,
         str_word_cols: int,
     ) -> Dataset:
+        """
+        Generate synthetic, tabular dataset
+        
+        name : name of a dataset
+        entries : number of rows in a DataFrame
+        int_cols : number of integer columns
+        float_cols : number of float columns
+        bool_cols : number of bool columns
+        str_fixed_cols : number of string columns with fixed length
+        str_var_cols : number of string columns with variable length
+        str_word_cols : number of columns with real English words
+        """
         gd = GenDtype()
 
         num_of_cols = int_cols + float_cols + bool_cols + str_fixed_cols + str_var_cols + str_word_cols
@@ -45,8 +63,18 @@ class Generator:
 
         return Dataset(name, df=df)
 
+    @staticmethod
+    def load_webface() -> Dataset:
+        return Dataset("webface")
+
+    @staticmethod
     def load_cifar_10(entries: int) -> Dataset:
-        pathname = "./cifar-10/*_batch*"
+        """
+        Load Cifar-10 dataset
+
+        entries : number of imges to load
+        """
+        pathname = "/home/marian/Projects/School/BP/asv/cifar-10/*_batch*"
         labels, images = [], []
         number_of_batches = math.ceil(entries / 10000)
 
@@ -69,8 +97,14 @@ class Generator:
 
         return Dataset("Cifar-10", images=images[:entries], labels=labels[:entries])
 
-    def load_imagenet_10(entries: int) -> Dataset:
-        df = pd.read_parquet("/home/marian/Projects/School/BP/asv/imagenet-10/ImageNet0-5.parquet")
+    @staticmethod
+    def load_imagenet_100(entries: int) -> Dataset:
+        """
+        Load Imagenet-100 dataset
+
+        entries : number of imges to load
+        """
+        df = pd.read_parquet("/home/marian/Projects/School/BP/asv/imagenet-100/ImageNet0-5.parquet")
         images_bytes = df["image"][:entries]
         labels = df["label"][:entries].to_list()
         images = []
@@ -80,4 +114,4 @@ class Generator:
             arr = np.asarray(image)
             images.append(arr)
 
-        return Dataset("Imagenet", images=images, labels=labels)
+        return Dataset("Imagenet-100", images=images, labels=labels)

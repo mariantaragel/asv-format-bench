@@ -1,8 +1,13 @@
+##
+# @file sqlite_storage.py
+# @author Marián Tarageľ (xtarag01)
+
 from .image_storage import ImageStorage
 import numpy as np
 import sqlite3
 
 class Sqlite(ImageStorage):
+    """Storing images to a SQLite databse"""
 
     filename = "test.db"
     format_name = "SQLite"
@@ -45,7 +50,7 @@ class Sqlite(ImageStorage):
         cur.close()
         con.close()
 
-    def read(self):
+    def read(self) -> tuple[list, list]:
         con = sqlite3.connect(self.filename)
         cur = con.cursor()
 

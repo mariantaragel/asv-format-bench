@@ -6,8 +6,8 @@ class Tabular(BaseBenchmark):
 
     param_names = ["Data format", "Dataset"]
 
-    ds1 = Generator.gen_data_set("int", 1000, 1, 0, 0, 0, 0, 0)
-    ds2 = Generator.gen_data_set("float", 1000, 0, 1, 0, 0, 0, 0)
+    ds1 = Generator.gen_dataset("int", 1000, 1, 0, 0, 0, 0, 0)
+    ds2 = Generator.gen_dataset("float", 1000, 0, 1, 0, 0, 0, 0)
 
     def __init__(self) -> None: 
         self.params = ([Csv(), Json(), Xml(), Hdf5Fixed(), Hdf5Table(), Parquet(),

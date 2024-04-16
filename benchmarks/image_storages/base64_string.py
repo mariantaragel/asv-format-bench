@@ -1,3 +1,7 @@
+##
+# @file base64_string.py
+# @author Marián Tarageľ (xtarag01)
+
 from .image_storage import ImageStorage
 import numpy as np
 import base64
@@ -5,6 +9,7 @@ import csv
 import sys
 
 class Base64String(ImageStorage):
+    """Encoding images to Base64 strings"""
 
     filename = "test.csv"
     format_name = "Base64"
@@ -29,7 +34,7 @@ class Base64String(ImageStorage):
             csv_witer.writerow(["label", "image", "shape_x", "shape_y", "shape_z"])
             csv_witer.writerows(list(zip(labels, images_strings, shape_x, shape_y, shape_z)))
 
-    def read(self):
+    def read(self) -> tuple[list, list]:
         csv.field_size_limit(sys.maxsize)
 
         with open(self.filename) as csv_file:

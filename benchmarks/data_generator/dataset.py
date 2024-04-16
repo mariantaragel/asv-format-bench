@@ -1,3 +1,8 @@
+##
+# @file dataset.py
+# @author Marián Tarageľ (xtarag01)
+# @brief Wrapper for benchmark data
+
 import pandas as pd
 
 class Dataset:

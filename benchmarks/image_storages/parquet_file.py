@@ -1,3 +1,7 @@
+##
+# @file parquet_file.py
+# @author Marián Tarageľ (xtarag01)
+
 from .image_storage import ImageStorage
 import pyarrow.parquet as pq
 import pyarrow as pa
@@ -5,6 +9,7 @@ import pandas as pd
 import numpy as np
 
 class ParquetImage(ImageStorage):
+    """Storing images to a single Parquet file"""
 
     filename = "test.parquet"
     format_name = "Parquet"
@@ -35,7 +40,7 @@ class ParquetImage(ImageStorage):
 
         pq.write_table(table, self.filename)
 
-    def read(self):
+    def read(self) -> tuple[list, list]:
         table = pd.read_parquet(self.filename)
         images = []
         for i, img_bytes in enumerate(table["images"]):

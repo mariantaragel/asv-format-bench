@@ -1,3 +1,7 @@
+##
+# @file hdf5table_format.py
+# @author Marián Tarageľ (xtarag01)
+
 from .data_format import DataFormat
 import dask.dataframe as dd
 import pandas as pd
@@ -12,11 +16,7 @@ class Hdf5Table(DataFormat):
         self.filename = f"test.{self.filetype}"
         self.pathname = f"{self.filename}.*.{self.filetype}"
 
-    def save(self, data_set, compression="zlib"):
-        if compression == "zlib":
-            complevel = None
-        else:
-            complevel = 9
+    def save(self, data_set, compression="zlib", complevel=None):
         data_set.to_hdf(
             self.filename,
             index=False,
@@ -38,8 +38,8 @@ class Hdf5Table(DataFormat):
             compute=True
         )
 
-    def read(self):
-        pd.read_hdf(self.filename, key="data")
+    def read(self) -> pd.DataFrame:
+        return pd.read_hdf(self.filename, key="data")
 
-    def parallel_read(self):
-        dd.read_hdf(self.pathname, key="data").compute()
+    def parallel_read(self) -> pd.DataFrame:
+        return dd.read_hdf(self.pathname, key="data").compute()

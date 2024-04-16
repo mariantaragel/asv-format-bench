@@ -1,6 +1,10 @@
+##
+# @file orc_format.py
+# @author Marián Tarageľ (xtarag01)
+
 from .data_format import DataFormat
-import pandas as pd
 import dask.dataframe as dd
+import pandas as pd
 
 class Orc(DataFormat):
 
@@ -18,8 +22,8 @@ class Orc(DataFormat):
         dask_df = dd.from_pandas(data_set, npartitions=n)
         dd.to_orc(dask_df, self.filename, write_index=False, compute=True)
 
-    def read(self):
-        pd.read_orc(self.filename)
+    def read(self) -> pd.DataFrame:
+        return pd.read_orc(self.filename)
 
-    def parallel_read(self):
-        dd.read_orc(self.pathname).compute()
+    def parallel_read(self) -> pd.DataFrame:
+        return dd.read_orc(self.pathname).compute()

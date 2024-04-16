@@ -1,3 +1,7 @@
+##
+# @file avro_format.py
+# @author Marián Tarageľ (xtarag01)
+
 from fastavro import writer, reader, parse_schema
 from .data_format import DataFormat
 import pandas as pd
@@ -7,11 +11,10 @@ class Avro(DataFormat):
     format_name = "Avro"
     filetype = "avro"
 
-    def __init__(self, compression=None) -> None:
-        super().__init__(compression)
+    def __init__(self) -> None:
         self.filename = f"test.{self.filetype}"
 
-    def save(self, data_set: pd.DataFrame):
+    def save(self, data_set: pd.DataFrame, compression=None):
         schema = self.build_schema(data_set, False)
         records = data_set.to_dict(orient="records")
 

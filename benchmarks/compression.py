@@ -6,7 +6,7 @@ class Compression(BaseBenchmark):
 
     param_names = ["Data format", "Compression"]
 
-    ds = Generator.gen_data_set("ds", 1000, 1, 1, 0, 1, 0, 0)
+    ds = Generator.gen_dataset("ds", 1000, 1, 1, 0, 1, 0, 0)
 
     def __init__(self) -> None:
         self.params = ([

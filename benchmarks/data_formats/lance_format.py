@@ -1,3 +1,7 @@
+##
+# @file lance_format.py
+# @author Marián Tarageľ (xtarag01)
+
 from .data_format import DataFormat
 import pyarrow.dataset as pyds
 import pyarrow as pa
@@ -11,11 +15,10 @@ class Lance(DataFormat):
     format_name = "Lance"
     filetype = "lance"
 
-    def __init__(self, compression=None) -> None:
-        super().__init__(compression)
+    def __init__(self) -> None:
         self.filename = f"test.{self.filetype}"
 
-    def save(self, data_set: pd.DataFrame):
+    def save(self, data_set: pd.DataFrame, compression=None):
         uri = "data.parquet"
         if os.path.exists(uri):
             shutil.rmtree(uri)

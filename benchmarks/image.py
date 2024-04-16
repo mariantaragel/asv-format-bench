@@ -1,4 +1,4 @@
-from .image_storage import PngImage, Base64String, Hdf5Image, ParquetImage, Sqlite, LmdbImage
+from .image_storages import PngImage, Base64String, Hdf5Image, ParquetImage, Sqlite, LmdbImage
 from .data_generator import Generator
 from .base import BaseBenchmark
 
@@ -7,7 +7,7 @@ class Image(BaseBenchmark):
     param_names = ["Data format", "Dataset"]
 
     cifar = Generator.load_cifar_10(100)
-    imagenet = Generator.load_imagenet_10(50)
+    imagenet = Generator.load_imagenet_100(50)
 
     def __init__(self) -> None:
         self.params = ([PngImage(), Base64String(), Hdf5Image(),
