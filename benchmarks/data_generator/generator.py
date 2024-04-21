@@ -3,6 +3,7 @@
 # @author Marián Tarageľ (xtarag01)
 # @brief Create and load datasets
 
+from datasets import load_dataset
 from .gen_dtype import GenDtype
 from .dataset import Dataset
 from PIL import Image
@@ -10,6 +11,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import random
+import h5py
 import glob
 import math
 import io
@@ -74,28 +76,14 @@ class Generator:
 
         entries : number of imges to load
         """
-        pathname = "/home/marian/Projects/School/BP/asv/cifar-10/*_batch*"
-        labels, images = [], []
-        number_of_batches = math.ceil(entries / 10000)
+        cifar_10 = load_dataset("cifar10", split="train")
+        
+        images = []
+        for img in cifar_10["img"]:
+            img_array = np.array(img)
+            images.append(img_array)
 
-        for batch_file in glob.glob(pathname)[:number_of_batches]:
-            with open(batch_file, "rb") as pickle_file:
-                batch = pickle.load(pickle_file, encoding="bytes")
-                data_batch = batch[b"data"]
-                label_batch = batch[b"labels"]
-                labels += label_batch
-
-                for img_list in data_batch:
-                    img_array = np.array(img_list)
-                    rgb = []
-
-                    for i in range(3):
-                        rgb.append(img_array[i * 1024 : 1024 * (i + 1)].reshape(32, 32))
-
-                    img_raw = np.dstack(rgb)
-                    images.append(img_raw)
-
-        return Dataset("Cifar-10", images=images[:entries], labels=labels[:entries])
+        return Dataset("Cifar-10", images=images[:entries], labels=cifar_10["label"][:entries])
 
     @staticmethod
     def load_imagenet_100(entries: int) -> Dataset:
@@ -104,14 +92,28 @@ class Generator:
 
         entries : number of imges to load
         """
-        df = pd.read_parquet("/home/marian/Projects/School/BP/asv/imagenet-100/ImageNet0-5.parquet")
-        images_bytes = df["image"][:entries]
-        labels = df["label"][:entries].to_list()
+        imagenet_100 = load_dataset("clane9/imagenet-100", split="train")
+
         images = []
+        for img in imagenet_100["image"]:
+            img_array = np.array(img)
+            images.append(img_array)
 
-        for img in images_bytes:
-            image = Image.open(io.BytesIO(img["bytes"]))
-            arr = np.asarray(image)
-            images.append(arr)
+        return Dataset("Imagenet-100", images=images[:entries], labels=imagenet_100["label"][:entries])
 
-        return Dataset("Imagenet-100", images=images, labels=labels)
+    @staticmethod
+    def load_webface10M() -> Dataset:
+        """Load Webface10M datset"""
+        filename = "/home/xtarag01/synthetic_webface10M.h5"
+
+        with h5py.File(filename, "r") as f:
+            webface_key = list(f.keys())[1]
+            webface = f[webface_key]
+            webface_data = webface[:]
+
+            df = pd.DataFrame(webface_data)
+
+        columns = ["bbox", "db_id", "image_container_path", "image_id", "ipt_str", "subject_id"]
+        df.loc[:,columns] = df[columns].map(str)
+        
+        return Dataset("Webface10M", df=df)

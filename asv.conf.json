@@ -1,16 +1,16 @@
 {
     "version": 1,
     "project": "FormatBench",
-    "project_url": "https://github.com/mariantaragel/format_bench_asv",
+    "project_url": "https://github.com/mariantaragel/asv_format_bench",
     "repo": ".",
     "branches": ["main"],
     "environment_type": "virtualenv",
-    "pythons": ["3.11"],
+    "pythons": ["3.10"],
     "matrix": {
         "req": {
             "pandas": [],
             "numpy": [],
-            "dask": [],
+            "dask[complete]": [],
             "dask-expr": [],
             "pyarrow": [],
             "tables": [],
@@ -20,7 +20,9 @@
             "fastavro": [],
             "pillow": [],
             "h5py": [],
-            "lmdb": []
+            "lmdb": [],
+	        "datasets": [],
+	        "distributed": []
         }
     },
     "env_dir": ".asv/env",
