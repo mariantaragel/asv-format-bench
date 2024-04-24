@@ -1,0 +1,9 @@
+{
+    "arch": "x86_64",
+    "cpu": "Intel(R) Xeon(R) Silver 4314 CPU @ 2.40GHz",
+    "machine": "trafficgpu1",
+    "num_cpu": "64",
+    "os": "Linux 5.15.0-101-generic",
+    "ram": "263708528",
+    "version": 1
+}

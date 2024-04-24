@@ -66,10 +66,6 @@ class Generator:
         return Dataset(name, df=df)
 
     @staticmethod
-    def load_webface() -> Dataset:
-        return Dataset("webface")
-
-    @staticmethod
     def load_cifar_10(entries: int) -> Dataset:
         """
         Load Cifar-10 dataset

@@ -3,7 +3,8 @@ cifar-10/
 imagenet-100/
 
 # Airspeed Velocity
-.asv/
+.asv/env/
+.asv/html/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

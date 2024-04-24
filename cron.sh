@@ -9,9 +9,7 @@ echo "Machine: "$MACHINE
 git checkout main
 git pull origin main
 
-asv run --quick --bench Image || true
-asv run --quick --bench Tabular || true
-asv run --quick --bench Compression || true
+asv run --quick || true
 
 python3 postprocessing.py
 

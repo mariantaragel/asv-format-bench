@@ -15,7 +15,7 @@ class Orc(DataFormat):
         self.filename = f"test.{self.filetype}"
         self.pathname = f"{self.filename}/part.*.{self.filetype}"
 
-    def save(self, data_set, compression="uncompressed"):
+    def save(self, data_set, compression="uncompressed", complevel=None):
         data_set.to_orc(self.filename, index=False, engine_kwargs={"compression": compression})
 
     def parallel_save(self, data_set, n):

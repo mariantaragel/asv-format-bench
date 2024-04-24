@@ -15,7 +15,7 @@ class Parquet(DataFormat):
         self.filename = f"test.{self.filetype}"
         self.pathname = f"{self.filename}/part.*.{self.filetype}"
 
-    def save(self, data_set, compression=None):
+    def save(self, data_set, compression=None, complevel=None):
         data_set.to_parquet(self.filename, index=False, engine="pyarrow", compression=compression)
 
     def parallel_save(self, data_set, n):
