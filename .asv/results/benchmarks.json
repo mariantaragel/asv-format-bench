@@ -106,8 +106,8 @@
         ],
         "pretty_name": "Total size",
         "timeout": 140,
-        "type": "track",
-        "unit": "unit",
+        "type": "memory",
+        "unit": "bytes",
         "version": "f40ce7ddee4596cbc62b521ba7101e458dd1924ae47b884c4cb3993e2463f12d"
     },
     "Image.time_read": {
@@ -196,8 +196,8 @@
         ],
         "pretty_name": "Total size",
         "timeout": 2200,
-        "type": "track",
-        "unit": "unit",
+        "type": "memory",
+        "unit": "bytes",
         "version": "2bebe2a879b39db9e484b53a3c4c87ccd581b2790947d59d8e2bd5af2d84cd29"
     },
     "Tabular.time_read": {
@@ -316,8 +316,8 @@
         ],
         "pretty_name": "Total size",
         "timeout": 500,
-        "type": "track",
-        "unit": "unit",
+        "type": "memory",
+        "unit": "bytes",
         "version": "67f1d099a81532e3b9a5fb4e93e51c55294c191452ea2a0c239d9f7dc36ec215"
     },
     "version": 2
