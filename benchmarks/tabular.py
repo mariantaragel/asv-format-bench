@@ -1,8 +1,13 @@
+##
+# @file tabular.py
+# @author Marián Tarageľ (xtarag01)
+
 from .data_formats import Csv, Json, Xml, Hdf5Fixed, Hdf5Table, Parquet, Feather, Orc, Pickle, Excel, Lance, Avro
 from .data_generator import Generator
 from .base import BaseBenchmark
 
 class Tabular(BaseBenchmark):
+    """Tabular benchmark suite"""
 
     param_names = ["Data format", "Dataset"]
     timeout = 500
@@ -19,15 +24,19 @@ class Tabular(BaseBenchmark):
                        [self.ds1, self.ds2, self.ds3, self.ds4, self.ds5])
 
     def setup(self, format, ds):
+        """Benchmark setup"""
         format.save(ds.df)
 
     def time_save(self, format, ds):
+        """Run tabular benchmark save time"""
         format.save(ds.df)
 
     def track_size(self, format, ds):
+        """Run tabular benchmark total size"""
         return format.size()
     
     def time_read(self, format, ds):
+        """Run tabular benchmark read time"""
         format.read()
 
     time_save.pretty_name = "Saving time"

@@ -1,8 +1,13 @@
+##
+# @file compression.py
+# @author Marián Tarageľ (xtarag01)
+
 from .data_formats import Hdf5Table, Parquet, Feather, Orc
 from .data_generator import Generator
 from .base import BaseBenchmark
 
 class Compression(BaseBenchmark):
+    """Compression benchmark suite"""
 
     param_names = ["Data format", "Dataset", "Compression", "Compression level"]
     timeout = 140
@@ -18,15 +23,19 @@ class Compression(BaseBenchmark):
         ], [self.ds], ["lz4", "zstd"], [1])
 
     def setup(self, format, ds, compression, complevel):
+        """Benchmark setup"""
         format.save(ds.df, compression, complevel)
 
     def time_save(self, format, ds, compression, complevel):
+        """Run compression benchmark save time"""
         format.save(ds.df, compression, complevel)
 
     def track_size(self, format, ds, compression, complevel):
+        """Run compression benchmark total size"""
         return format.size()
     
     def time_read(self, format, ds, compression, complevel):
+        """Run compression benchmark read time"""
         format.read()
 
     time_save.pretty_name = "Saving time"

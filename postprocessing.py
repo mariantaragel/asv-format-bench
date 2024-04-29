@@ -1,3 +1,8 @@
+##
+# @file postprocessing.py
+# @author Marián Tarageľ (xtarag01)
+# @brief Postprocessing of the results
+
 import json
 
 benchamrk_file_loc = ".asv/results/benchmarks.json"

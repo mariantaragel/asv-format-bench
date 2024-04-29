@@ -1,4 +1,4 @@
 class BaseBenchmark:
+    """Base class for all benchmarks"""
 
     params: list
-    param_names = ["Data format"]

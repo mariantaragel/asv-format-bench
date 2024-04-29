@@ -1,7 +1,7 @@
 {
     "version": 1,
     "project": "FormatBench",
-    "project_url": "https://github.com/mariantaragel/asv_format_bench",
+    "project_url": "https://github.com/mariantaragel/asv-format-bench",
     "repo": ".",
     "branches": ["main"],
     "environment_type": "virtualenv",

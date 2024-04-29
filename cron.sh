@@ -13,4 +13,8 @@ asv run --quick || true
 
 python3 postprocessing.py
 
+git add .asv/results
+git commit -m "New results"
+git push origin main
+
 asv gh-pages
