@@ -25,7 +25,7 @@ class LmdbImage(ImageStorage):
 
         env.close()
 
-    def read(self):
+    def read(self) -> tuple[list, list]:
         images, labels = [], []
         env = lmdb.open(self.filename, readonly=True)
 
@@ -40,7 +40,7 @@ class LmdbImage(ImageStorage):
 
         return images, labels
     
-    def remove(self) -> tuple[list, list]:
+    def remove(self):
         os.remove(self.filename + "/data.mdb")
         os.remove(self.filename + "/lock.mdb")
         os.rmdir(self.filename)
